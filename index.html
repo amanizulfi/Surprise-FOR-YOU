@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photo Collage Surprise - FOR MY LOVE💙 </title>
+  <style>
+    /* 1. General & Background - Blue/White Theme */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+      /* Light Blue/White Gradient */
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb, #e3f2fd, #90caf9); 
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* 2. Title */
+    .title {
+      text-align: center;
+      padding: 30px 10px;
+      font-size: 36px;
+      /* Deep Blue */
+      color: #1565c0; 
+      font-weight: 800;
+      letter-spacing: 2px;
+      animation: slide 1.2s ease;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    @keyframes slide {
+      0% { transform: translateY(-20px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    /* 3. Gallery Grid */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      padding: 30px;
+      max-width: 1100px;
+      margin: auto;
+    }
+    
+    /* 4. Image Card & Flip */
+    .img-card {
+      position: relative;
+      overflow: visible;
+      border-radius: 18px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: white;
+      cursor: pointer;
+      perspective: 1000px;
+      width: 100%;
+      padding-bottom: 133%;
+      height: 0;
+      border: 3px solid #64b5f6; /* Light Blue Border */
+    }
+    .img-card:hover {
+      /* Soft Blue Shadow */
+      box-shadow: 0 12px 25px rgba(30, 136, 229, 0.45); 
+      transform: translateY(-5px);
+    }
+    .flip-card-inner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+    }
+    .img-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front,
+    .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 18px;
+      /* Soft Blue Shadow */
+      box-shadow: 0 8px 20px rgba(66, 165, 245, 0.35); 
+    }
+    .flip-card-front {
+      background: white;
+    }
+    .flip-card-back {
+      /* Blue/Sky Blue Gradient */
+      background: linear-gradient(135deg, #42a5f5, #90caf9); 
+      transform: rotateY(180deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .poem-text {
+      color: #fff;
+      text-align: center;
+      font-size: 16px;
+      line-height: 1.6;
+      font-style: italic;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    .flip-card-front img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 18px;
+    }
+
+    /* 5. Decorations & Floating Elements */
+    .img-decorator {
+      position: absolute;
+      font-size: 24px;
+      animation: decoratorFloat 3s ease-in-out infinite;
+      z-index: 10;
+    }
+    .decorator-tl { top: -15px; left: -15px; animation-delay: 0s; }
+    .decorator-tr { top: -15px; right: -15px; animation-delay: 0.5s; }
+    .decorator-bl { bottom: -15px; left: -15px; animation-delay: 1s; }
+    .decorator-br { bottom: -15px; right: -15px; animation-delay: 1.5s; }
+    @keyframes decoratorFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(10deg); }
+    }
+    
+    .floating-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      opacity: 0.6;
+      animation: floatUp 8s infinite ease-in;
+      color: #42a5f5; /* Blue hearts */
+    }
+    /* Note: Keyframes for floatUp remain the same */
+
+    /* 6. Main Message Box */
+    .content-wrapper { position: relative; z-index: 2; }
+    .reveal-message {
+      text-align: center;
+      padding: 30px 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      /* Blue Shadow */
+      box-shadow: 0 8px 30px rgba(66, 165, 245, 0.3); 
+      animation: scaleIn 1s ease-out 0.5s backwards;
+    }
+    @keyframes scaleIn {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .reveal-message h2 {
+      /* Bright Blue */
+      color: #1976d2; 
+      font-size: 28px;
+      margin: 0 0 15px 0;
+      font-weight: 700;
+    }
+    .reveal-message p {
+      /* Medium Blue */
+      color: #42a5f5; 
+      font-size: 18px;
+      line-height: 1.6;
+      margin: 10px 0;
+    }
+    .instruction-box {
+      text-align: center;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 500px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      /* Dashed Blue border */
+      border: 2px dashed #42a5f5; 
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .instruction-box p {
+      /* Darker Blue text */
+      color: #1e88e5; 
+      font-size: 16px;
+      margin: 5px 0;
+      font-weight: 600;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(66, 165, 245, 0.7); }
+      50% { box-shadow: 0 0 0 10px rgba(66, 165, 245, 0); }
+    }
+
+    /* 7. Hidden Challenge */
+    .answer-input {
+      padding: 12px 20px;
+      font-size: 18px;
+      /* Blue input border */
+      border: 3px solid #42a5f5; 
+      border-radius: 25px;
+      text-align: center;
+      width: 200px;
+      margin: 15px auto;
+      display: block;
+      font-family: "Poppins", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: all 0.3s ease;
+    }
+    .answer-input:focus {
+      outline: none;
+      /* Darker focus blue */
+      border-color: #1976d2; 
+      box-shadow: 0 0 15px rgba(25, 118, 210, 0.3);
+    }
+    .submit-btn {
+      padding: 12px 30px;
+      font-size: 16px;
+      /* Blue gradient button */
+      background: linear-gradient(135deg, #42a5f5, #1976d2); 
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-family: "Poppins", sans-serif;
+      font-weight: 600;
+      margin: 10px auto;
+      display: block;
+      transition: all 0.3s ease;
+    }
+    .submit-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(25, 118, 210, 0.4);
+    }
+    .secret-message {
+      display: none;
+      margin-top: 30px;
+      padding: 30px;
+      /* Dark Blue Gradient for reveal */
+      background: linear-gradient(135deg, #1e88e5, #0d47a1, #1e88e5); 
+      border-radius: 20px;
+      animation: blowUp 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    .secret-message.show {
+      display: block;
+    }
+    @keyframes blowUp { /* Same as before, looks great */ }
+    .secret-message h3 {
+      color: white;
+      font-size: 32px;
+      margin: 0 0 20px 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+    .emoji-large {
+      font-size: 40px;
+      display: inline-block;
+      animation: float 2s ease-in-out infinite;
+    }
+
+    /* 8. Utility & Animations (Updated Colors) */
+    .message-text {
+      /* Dark Blue text */
+      color: #1976d2 !important; 
+    }
+    .message-text:nth-child(even) {
+      /* Medium Blue text */
+      color: #42a5f5 !important; 
+    }
+    .footer-text {
+      /* Dark Blue */
+      color: #1976d2; 
+      font-size: 20px;
+      animation: fadeText 1.6s ease;
+    }
+    @keyframes float { /* Same as before */ }
+    @keyframes heartbeat { /* Same as before */ }
+    @keyframes slideInLeft { /* Same as before */ }
+    @keyframes slideInRight { /* Same as before */ }
+    @keyframes fadeText { /* Same as before */ }
+    
+    /* 9. Media Queries */
+    @media (max-width: 768px) {
+      .title { font-size: 28px; padding: 20px 10px; }
+      .gallery { grid-template-columns: 1fr; gap: 20px; padding: 20px 30px; max-width: 500px; }
+      .message-text { font-size: 18px !important; padding: 0 15px; }
+      .footer-text { font-size: 18px; padding: 0 15px; }
+      .reveal-message { margin: 20px 15px; }
+      .instruction-box { margin: 20px 15px; }
+    }
+    @media (max-width: 480px) {
+      .title { font-size: 24px; }
+      .gallery { grid-template-columns: 1fr; gap: 15px; padding: 15px 10px; max-width: 400px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="floating-hearts">
+    <div class="heart">💙</div>
+    <div class="heart">🦋</div>
+    <div class="heart">✨</div>
+    <div class="heart">💙</div>
+    <div class="heart">🦋</div>
+    <div class="heart">✨</div>
+    <div class="heart">💙</div>
+    <div class="heart">🦋</div>
+    <div class="heart">✨</div>
+    <div class="heart">💙</div>
+  </div>
+  <div class="content-wrapper">
+    <div class="title"><span class="emoji-float">💙</span> My Love <span class="emoji-float">💙</span></div>
+    <div class="reveal-message">
+      <h2>💖 A Special Message For You 💖</h2>
+      <p>This page is my little way of telling you how much I love and cherish you.
+Each photo holds a moment close to my heart, reminding me of us.</p>
+      <p>Every picture here holds a special memory that makes me smile.</p>
+      <p><strong>You are truly amazing, and I hope this brings a smile to your beautiful face today. 💕 🌟</strong></p>
+    </div>
+    <div class="instruction-box">
+      <p>👆 Click on each photo to reveal a special poem 🦋</p>
+      <p>✨ Tap any image to flip it ✨</p>
+    </div>
+    <div style="text-align: center; margin: 20px 0; padding: 0 20px;">
+      <p class="message-text" style="font-size: 22px; font-weight: 600; margin: 10px 0;">
+        <span class="emoji-heart">💖</span> Every moment with you feels like magic <span class="emoji-heart">💖</span>
+      </p>
+      <p class="message-text" style="font-size: 18px; margin: 10px 0;">
+        <span class="emoji-float">✨</span> These memories remind me why you're so amazing <span class="emoji-float">✨</span>
+      </p>
+    </div>
+    
+    <div class="gallery">
+      <div class="img-card" onclick="this.classList.toggle('flipped')">
+        <span class="img-decorator decorator-tl">🦋</span>
+        <span class="img-decorator decorator-tr">💖</span>
+        <span class="img-decorator decorator-bl">💙</span>
+        <span class="img-decorator decorator-br">✨</span>
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="images/1.jpg" alt="LOVE MOMENT 1">
+          </div>
+          <div class="flip-card-back">
+            <div class="poem-text">
+              <strong>Unconditional love</strong><br><br>
+             No reason needed, no cause to explain,<br>
+             My Unconditional love will always remain.<br>
+             Your heart is my safe, most beautiful place.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="img-card" onclick="this.classList.toggle('flipped')">
+        <span class="img-decorator decorator-tl">💙</span>
+        <span class="img-decorator decorator-tr">🦋</span>
+        <span class="img-decorator decorator-bl">💕</span>
+        <span class="img-decorator decorator-br">🌟</span>
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="images/2.jpg" alt="LOVE MOMENT 2">
+          </div>
+          <div class="flip-card-back">
+            <div class="poem-text">
+              <strong>Soulmate</strong><br><br>
+              My missing piece, my destiny found,<br>
+              A sweet echo of spirit without a sound.<br>
+            My precious Soulmate, forever bound.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="img-card" onclick="this.classList.toggle('flipped')">
+        <span class="img-decorator decorator-tl">💝</span>
+        <span class="img-decorator decorator-tr">✨</span>
+        <span class="img-decorator decorator-bl">🦋</span>
+        <span class="img-decorator decorator-br">💫</span>
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="images/3.jpg" alt="LOVE MOMENT 3">
+          </div>
+          <div class="flip-card-back">
+            <div class="poem-text">
+              <strong>Us</strong><br><br>
+              Just Us, a perfect story written gold,<br>
+              An adventure of love that will never grow old.<br>
+              Together, our future is mine to behold.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="img-card" onclick="this.classList.toggle('flipped')">
+        <span class="img-decorator decorator-tl">🦋</span>
+        <span class="img-decorator decorator-tr">💙</span>
+        <span class="img-decorator decorator-bl">💗</span>
+        <span class="img-decorator decorator-br">🌟</span>
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="images/4.jpg" alt="LOVE MOMENT 4">
+          </div>
+          <div class="flip-card-back">
+            <div class="poem-text">
+              <strong>Romance</strong><br><br>
+             A quiet glance, a feeling so sweet,<br>
+              Romance in the air, making life complete.<br>
+              My heart blooms completely when we meet.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="img-card" onclick="this.classList.toggle('flipped')">
+        <span class="img-decorator decorator-tl">🌈</span>
+        <span class="img-decorator decorator-tr">🦋</span>
+        <span class="img-decorator decorator-bl">💙</span>
+        <span class="img-decorator decorator-br">💞</span>
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="images/5.jpg" alt="LOVE MOMENT 5">
+          </div>
+          <div class="flip-card-back">
+            <div class="poem-text">
+              <strong>Unbreakable</strong><br><br>
+              Strong, enduring, built on trust and fire,<br>
+              Our bond is Unbreakable, lifting us higher.<br>
+              You are my safe harbor, my deepest desire.💝
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div style="text-align: center; margin: 40px 20px;">
+      <div style="background: rgba(255, 255, 255, 0.9); padding: 30px; border-radius: 20px; max-width: 600px; margin: 0 auto; box-shadow: 0 8px 30px rgba(66, 165, 245, 0.3);">
+        <h2 style="color: #1976d2; font-size: 24px; margin-bottom: 20px;">💙 A Little Challenge For You 💙</h2>
+        <div style="background: linear-gradient(135deg, #e3f2fd, #bbdefb); padding: 20px; border-radius: 15px; margin: 20px 0;">
+          <p style="color: #1e88e5; font-size: 18px; font-weight: 600; margin-bottom: 15px;">🎯 Find the Hidden Message!</p>
+          <p style="color: #42a5f5; font-size: 16px; margin: 10px 0;">Look at the first letter of each poem title...</p>
+          <p style="color: #666; font-size: 14px; font-style: italic;">Hint: Flip all the cards to collect the letters! 🔤</p>
+          
+          <div style="margin-top: 20px;">
+            <input type="text" id="answerInput" class="answer-input" placeholder="Enter word here" maxlength="10">
+            <button class="submit-btn" onclick="checkAnswer()">✨ Submit ✨</button>
+          </div>
+          
+          <div id="secretMessage" class="secret-message">
+            <h3>
+              <span class="emoji-large">💙</span> I love You BABA <span class="emoji-large">💙</span>
+            </h3>
+            <p style="color: white; font-size: 24px; margin: 10px 0;">
+              <span class="emoji-large">💖</span> <span class="emoji-large">✨</span> <span class="emoji-large">🦋</span> <span class="emoji-large">🌟</span> <span class="emoji-large">💕</span>
+            </p>
+            <p style="color: white; font-size: 20px; margin: 15px 0;">
+              From the moment you entered my life, everything became softer, brighter, and more beautiful! 💝
+            </p>
+            <p style="color: white; font-size: 18px;">
+              <span class="emoji-large">🌟</span> <span class="emoji-large">💙</span> <span class="emoji-large">💖</span>
+            </p>
+          </div>
+        </div>
+
+        <script>
+          function checkAnswer() {
+            const input = document.getElementById('answerInput');
+            const message = document.getElementById('secretMessage');
+            const answer = input.value.trim().toUpperCase();
+            
+            // Hidden word: U.S.U.R.U (Unconditional, Soulmate, Us, Romance, Unbreakable)
+            if (answer === 'USURU') {
+              message.classList.add('show');
+              input.style.borderColor = '#00c853'; /* Green on correct */
+              setTimeout(() => {
+                input.value = '';
+              }, 1000);
+            } else {
+              input.style.borderColor = '#d50000'; /* Red on incorrect */
+              input.value = '';
+              setTimeout(() => {
+                input.style.borderColor = '#42a5f5'; /* Back to blue */
+              }, 1000);
+            }
+          }
+          
+          // Allow Enter key to submit
+          document.getElementById('answerInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+              checkAnswer();
+            }
+          });
+        </script>
+        
+        <p class="footer-text">
+          🌟You make every day brighter, warmer, and filled with love.🌟
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
